@@ -1,8 +1,9 @@
 import com.scrumtrek.simplestore.Customer;
 import com.scrumtrek.simplestore.Rental;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class CustomerTest {
 
@@ -15,7 +16,7 @@ public class CustomerTest {
 
     @Test
     public void shouldReturnNameWhenGetName() {
-        Assert.assertEquals("name", m_Customer.getName());
+        assertEquals("name", m_Customer.getName());
     }
 
     @Test
@@ -32,12 +33,12 @@ public class CustomerTest {
     @Test
     public void shouldState0AmountWhenCallStatementWithoutRentals() {
         String statement = m_Customer.Statement();
-        Assert.assertTrue(statement.contains("Amount owed is 0"));
+        assertTrue(statement.contains("Amount owed is 0"));
     }
 
     @Test
     public void shouldState0FRPWhenCallStatementWithoutRentals() {
         String statement = m_Customer.Statement();
-        Assert.assertTrue(statement.contains("You earned 0"));
+        assertTrue(statement.contains("You earned 0"));
     }
 }

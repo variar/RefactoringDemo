@@ -1,12 +1,10 @@
 import com.scrumtrek.simplestore.Movie;
 import com.scrumtrek.simplestore.PriceCodes;
 import com.scrumtrek.simplestore.Rental;
-import org.junit.Assert;
 import org.junit.Test;
 
-/**
- * Created by omni on 19.11.15.
- */
+import static org.junit.Assert.*;
+
 public class RentalTest {
 
     @Test
@@ -14,7 +12,7 @@ public class RentalTest {
     {
         Movie m = new Movie("123", PriceCodes.Childrens);
         Rental sut = new Rental(m, 10);
-        Assert.assertEquals(m, sut.getMovie());
+        assertEquals(m, sut.getMovie());
     }
 
     @Test
@@ -22,6 +20,6 @@ public class RentalTest {
     {
         Movie m = new Movie("123", PriceCodes.Childrens);
         Rental sut = new Rental(m, 10);
-        Assert.assertEquals(10, sut.getDaysRented());
+        assertEquals(10, sut.getDaysRented());
     }
 }
