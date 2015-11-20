@@ -1,24 +1,24 @@
 package com.scrumtrek.simplestore;
 
 public class Movie {
-	private transient String m_Title;
-	private transient PriceCodes m_PriceCode;
+	private transient String mTitle;
+	private transient PriceCodes mPriceCode;
 
 	public Movie(String title, PriceCodes priceCode) {
-		m_Title = title;
-		m_PriceCode = priceCode;
+		mTitle = title;
+		mPriceCode = priceCode;
 	}
 
 	public PriceCodes getPriceCode()	{
-		return m_PriceCode;
+		return mPriceCode;
 	}
 	
 	public void setPriceCode(PriceCodes value) {
-		m_PriceCode = value;
+		mPriceCode = value;
 	}
 
 	public String getTitle() {
-		return m_Title;
+		return mTitle;
 	}
 }
 

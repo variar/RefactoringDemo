@@ -13,20 +13,21 @@ public class Customer {
 	public static final double ChildrenRentAmount = 1.5;
 	public static final int NewReleaseMinDaysForBonus = 1;
 	public static final int BaseFrequentRenterPoints = 1;
-	private transient String m_Name;
-	private transient List<Rental> m_Rentals = new ArrayList<Rental>();
+
+	private transient String mName;
+	private transient List<Rental> mRentals = new ArrayList<Rental>();
 
 	public Customer(String name) {
-		m_Name = name;
+		mName = name;
 	}
 
 	public String getName() {
-		return m_Name;
+		return mName;
 	}
 
 
 	public void addRental(Rental arg){
-		m_Rentals.add(arg);
+		mRentals.add(arg);
 	}
 
 	public String Statement()
@@ -34,12 +35,11 @@ public class Customer {
 		double totalAmount = 0;
 		int frequentRenterPoints = 0;
 				
-		String result = "Rental record for " + m_Name + "\n";
+		String result = "Rental record for " + mName + "\n";
 		
-		for(Rental each: m_Rentals) {
+		for(Rental each: mRentals) {
 			double thisAmount = 0;
 			
-			// Determine amounts for each line
 			switch(each.getMovie().getPriceCode()) {
 				case Regular:
 					thisAmount += getAmountForRegularMovie(each);

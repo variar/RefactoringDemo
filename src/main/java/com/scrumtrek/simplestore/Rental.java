@@ -1,20 +1,20 @@
 package com.scrumtrek.simplestore;
 
 public class Rental {
-	private transient Movie m_Movie;
-	private transient int m_DaysRented;
+	private transient Movie mMovie;
+	private transient int mDaysRented;
 
 	public Rental(Movie movie, int daysRented) {
-		m_Movie = movie;
-		m_DaysRented = daysRented;
+		mMovie = movie;
+		mDaysRented = daysRented;
 	}
 
 	public int getDaysRented() {
-		return m_DaysRented;
+		return mDaysRented;
 	}
 
 	public Movie getMovie() {
-		return m_Movie;
+		return mMovie;
 	}
 }
 
