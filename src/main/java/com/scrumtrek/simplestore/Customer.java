@@ -12,6 +12,7 @@ public class Customer {
 	public static final int RegularBaseAmount = 2;
 	public static final double ChildrenRentAmount = 1.5;
 	public static final int NewReleaseMinDaysForBonus = 1;
+	public static final int BaseFrequentRenterPoints = 1;
 	private transient String m_Name;
 	private transient List<Rental> m_Rentals = new ArrayList<Rental>();
 
@@ -41,45 +42,60 @@ public class Customer {
 			// Determine amounts for each line
 			switch(each.getMovie().getPriceCode()) {
 				case Regular:
-					thisAmount += RegularBaseAmount;
-					if (each.getDaysRented() > RegularRentThreshold)
-					{
-						thisAmount += (each.getDaysRented() - RegularRentThreshold) * RegularMultiplier;
-					}
+					thisAmount += getAmountForRegularMovie(each);
 					break;
 	
 				case NewRelease:
-					thisAmount += each.getDaysRented() * NewReleaseMultiplier;
+					thisAmount += getAmountForNewRelease(each);
 					break;
 	
 				case Childrens:
-					thisAmount += ChildrenRentAmount;
-					if (each.getDaysRented() > ChildrensRentThreshold)
-					{
-						thisAmount = (each.getDaysRented() - ChildrensRentThreshold) * ChlidrensMultiplier;
-					}
+					thisAmount += getAmountForChildrensRelease(each);
 					break;
 			}
 
-			// Add frequent renter points
-			frequentRenterPoints++;
+			frequentRenterPoints += getFrequentRenterPoints(each);
 
-			// Add bonus for a two-day new-release rental
-			if ((each.getMovie().getPriceCode() == PriceCodes.NewRelease)
-					&& (each.getDaysRented() > NewReleaseMinDaysForBonus))
-			{
-				frequentRenterPoints++;
-			}
-
-			// Show figures for this rental
 			result += "\t" + each.getMovie().getTitle() + "\t" + thisAmount + "\n";
 			totalAmount += thisAmount;
 		}
 
-		// Add footer lines
 		result += "Amount owed is " + totalAmount + "\n";
 		result += "You earned " + frequentRenterPoints + " frequent renter points.";
 		return result;
+	}
+
+	private int getFrequentRenterPoints(Rental rental) {
+		int frequentRenterPoints = BaseFrequentRenterPoints;
+
+		if ((rental.getMovie().getPriceCode() == PriceCodes.NewRelease)
+                && (rental.getDaysRented() > NewReleaseMinDaysForBonus))
+        {
+            frequentRenterPoints++;
+        }
+		return frequentRenterPoints;
+	}
+
+	private double getAmountForChildrensRelease(Rental rental) {
+		double thisAmount = ChildrenRentAmount;
+		if (rental.getDaysRented() > ChildrensRentThreshold)
+        {
+            thisAmount = (rental.getDaysRented() - ChildrensRentThreshold) * ChlidrensMultiplier;
+        }
+		return thisAmount;
+	}
+
+	private double getAmountForNewRelease(Rental rental) {
+		return rental.getDaysRented() * NewReleaseMultiplier;
+	}
+
+	private double getAmountForRegularMovie(Rental rental) {
+		double thisAmount = RegularBaseAmount;
+		if (rental.getDaysRented() > RegularRentThreshold)
+        {
+            thisAmount += (rental.getDaysRented() - RegularRentThreshold) * RegularMultiplier;
+        }
+		return thisAmount;
 	}
 }
 
