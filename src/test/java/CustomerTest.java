@@ -55,50 +55,49 @@ public class CustomerTest {
     }
 
     @Test
-    public void shouldStateNotNullAmountWhenCallStatementWithRentals() {
-        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.Regular), 3));
-        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.Childrens), 4));
-        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.NewRelease), 3));
-        String statement = m_Customer.Statement();
-        assertFalse(statement.contains("You earned 0"));
-    }
-
-    @Test
-    public void shouldStateNotNullAmountWhenCallStatementWithRentals1() {
+    public void shouldState2AmountWhenCallStatementWithRegularRentalFor1Day() {
         m_Customer.addRental(new Rental(new Movie("123", PriceCodes.Regular), 1));
-        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.Childrens), 4));
-        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.NewRelease), 1));
         String statement = m_Customer.Statement();
-        assertFalse(statement.contains("You earned 0"));
+        assertTrue(statement.contains("Amount owed is 2"));
     }
 
     @Test
-    public void shouldStateNotNullAmountWhenCallStatementWithRentals2() {
-        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.Regular), 3));
-        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.Childrens), 2));
+    public void shouldState5AmountWhenCallStatementWithRegularRentalFor4Days() {
+        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.Regular), 4));
         String statement = m_Customer.Statement();
-        assertFalse(statement.contains("You earned 0"));
+        assertTrue(statement.contains("Amount owed is 5"));
     }
 
     @Test
-    public void shouldStateNotNullAmountWhenCallStatementWithRentals3() {
-        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.Regular), 1));
+    public void shouldState1point5AmountWhenCallStatementWithChildrenRentalFor1Day() {
         m_Customer.addRental(new Rental(new Movie("123", PriceCodes.Childrens), 1));
-        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.NewRelease), 1));
         String statement = m_Customer.Statement();
-        assertFalse(statement.contains("You earned 0"));
+        assertTrue(statement.contains("Amount owed is 1.5"));
     }
 
     @Test
-    public void shouldStateNotNullAmountWhenCallStatementWithRentals4() {
-        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.Regular), 3));
+    public void shouldState1point5AmountWhenCallStatementWithChildrenRentalFor4Day() {
         m_Customer.addRental(new Rental(new Movie("123", PriceCodes.Childrens), 4));
         String statement = m_Customer.Statement();
-        assertFalse(statement.contains("You earned 0"));
+        assertTrue(statement.contains("Amount owed is 1.5"));
     }
 
     @Test
-    public void shouldState2FRPWhenCallStatementWithOnlyNewReleaseAndDays2() {
+    public void shouldState3AmountWhenCallStatementWithNewRentalFor1Days() {
+        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.NewRelease), 1));
+        String statement = m_Customer.Statement();
+        assertTrue(statement.contains("Amount owed is 3"));
+    }
+
+    @Test
+    public void shouldState1FRPWhenCallStatementWithoutNewRelease() {
+        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.Regular), 2));
+        String statement = m_Customer.Statement();
+        assertTrue(statement.contains("You earned 1"));
+    }
+
+    @Test
+    public void shouldState2FRPWhenCallStatementWithNewReleaseAndDays2() {
         m_Customer.addRental(new Rental(new Movie("123", PriceCodes.NewRelease), 2));
         String statement = m_Customer.Statement();
         assertTrue(statement.contains("You earned 2"));
