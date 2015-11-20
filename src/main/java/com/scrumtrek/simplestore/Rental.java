@@ -1,8 +1,8 @@
 package com.scrumtrek.simplestore;
 
 public class Rental {
-	private Movie m_Movie;
-	private int m_DaysRented;
+	private transient Movie m_Movie;
+	private transient int m_DaysRented;
 
 	public Rental(Movie movie, int daysRented) {
 		m_Movie = movie;

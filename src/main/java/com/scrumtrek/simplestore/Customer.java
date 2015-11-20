@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Customer {
-	private String m_Name;
-	private List<Rental> m_Rentals = new ArrayList<Rental>();
+	private transient String m_Name;
+	private transient List<Rental> m_Rentals = new ArrayList<Rental>();
 
 	public Customer(String name) {
 		m_Name = name;

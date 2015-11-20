@@ -1,8 +1,8 @@
 package com.scrumtrek.simplestore;
 
 public class Movie {
-	private String m_Title;
-	private PriceCodes m_PriceCode;
+	private transient String m_Title;
+	private transient PriceCodes m_PriceCode;
 
 	public Movie(String title, PriceCodes priceCode) {
 		m_Title = title;
