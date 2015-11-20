@@ -90,6 +90,14 @@ public class CustomerTest {
     }
 
     @Test
+    public void shouldStateNotNullAmountWhenCallStatementWithRentals4() {
+        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.Regular), 3));
+        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.Childrens), 4));
+        String statement = m_Customer.Statement();
+        assertFalse(statement.contains("You earned 0"));
+    }
+
+    @Test
     public void shouldState2FRPWhenCallStatementWithOnlyNewReleaseAndDays2() {
         m_Customer.addRental(new Rental(new Movie("123", PriceCodes.NewRelease), 2));
         String statement = m_Customer.Statement();
