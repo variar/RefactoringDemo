@@ -21,13 +21,23 @@ public class CustomerTest {
 
     @Test
     public void shouldNotCrashWhenCallStatement() {
-        m_Customer.Statement();
+        try {
+            m_Customer.Statement();
+        }
+        catch (Exception err) {
+            fail(err.getMessage());
+        }
     }
 
     @Test
     public void shouldNotCrashWhenAddRental() {
         Rental rental = org.mockito.Mockito.mock(Rental.class);
-        m_Customer.addRental(rental);
+        try {
+            m_Customer.addRental(rental);
+        }
+        catch (Exception err) {
+            fail(err.getMessage());
+        }
     }
 
     @Test
