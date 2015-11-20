@@ -1,4 +1,6 @@
 import com.scrumtrek.simplestore.Customer;
+import com.scrumtrek.simplestore.Movie;
+import com.scrumtrek.simplestore.PriceCodes;
 import com.scrumtrek.simplestore.Rental;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,5 +52,40 @@ public class CustomerTest {
     public void shouldState0FRPWhenCallStatementWithoutRentals() {
         String statement = m_Customer.Statement();
         assertTrue(statement.contains("You earned 0"));
+    }
+
+    @Test
+    public void shouldStateNotNullAmountWhenCallStatementWithRentals() {
+        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.Regular), 3));
+        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.Childrens), 4));
+        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.NewRelease), 3));
+        String statement = m_Customer.Statement();
+        assertFalse(statement.contains("You earned 0"));
+    }
+
+    @Test
+    public void shouldStateNotNullAmountWhenCallStatementWithRentals1() {
+        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.Regular), 1));
+        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.Childrens), 4));
+        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.NewRelease), 1));
+        String statement = m_Customer.Statement();
+        assertFalse(statement.contains("You earned 0"));
+    }
+
+    @Test
+    public void shouldStateNotNullAmountWhenCallStatementWithRentals2() {
+        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.Regular), 3));
+        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.Childrens), 2));
+        String statement = m_Customer.Statement();
+        assertFalse(statement.contains("You earned 0"));
+    }
+
+    @Test
+    public void shouldStateNotNullAmountWhenCallStatementWithRentals3() {
+        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.Regular), 1));
+        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.Childrens), 1));
+        m_Customer.addRental(new Rental(new Movie("123", PriceCodes.NewRelease), 1));
+        String statement = m_Customer.Statement();
+        assertFalse(statement.contains("You earned 0"));
     }
 }
