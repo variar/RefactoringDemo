@@ -4,6 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Customer {
+	public static final int RegularRentThreshold = 2;
+	public static final int ChildrensRentThreshold = 3;
+	public static final double RegularMultiplier = 1.5;
+	public static final int NewReleaseMultiplier = 3;
+	public static final double ChlidrensMultiplier = 1.5;
+	public static final int RegularBaseAmount = 2;
+	public static final double ChildrenRentAmount = 1.5;
+	public static final int NewReleaseMinDaysForBonus = 1;
 	private transient String m_Name;
 	private transient List<Rental> m_Rentals = new ArrayList<Rental>();
 
@@ -33,22 +41,22 @@ public class Customer {
 			// Determine amounts for each line
 			switch(each.getMovie().getPriceCode()) {
 				case Regular:
-					thisAmount += 2;
-					if (each.getDaysRented() > 2)
+					thisAmount += RegularBaseAmount;
+					if (each.getDaysRented() > RegularRentThreshold)
 					{
-						thisAmount += (each.getDaysRented() - 2) * 1.5;
+						thisAmount += (each.getDaysRented() - RegularRentThreshold) * RegularMultiplier;
 					}
 					break;
 	
 				case NewRelease:
-					thisAmount += each.getDaysRented() * 3;
+					thisAmount += each.getDaysRented() * NewReleaseMultiplier;
 					break;
 	
 				case Childrens:
-					thisAmount += 1.5;
-					if (each.getDaysRented() > 3)
+					thisAmount += ChildrenRentAmount;
+					if (each.getDaysRented() > ChildrensRentThreshold)
 					{
-						thisAmount = (each.getDaysRented() - 3) * 1.5;
+						thisAmount = (each.getDaysRented() - ChildrensRentThreshold) * ChlidrensMultiplier;
 					}
 					break;
 			}
@@ -57,9 +65,10 @@ public class Customer {
 			frequentRenterPoints++;
 
 			// Add bonus for a two-day new-release rental
-			if ((each.getMovie().getPriceCode() == PriceCodes.NewRelease) && (each.getDaysRented() > 1))
+			if ((each.getMovie().getPriceCode() == PriceCodes.NewRelease)
+					&& (each.getDaysRented() > NewReleaseMinDaysForBonus))
 			{
-				frequentRenterPoints ++;
+				frequentRenterPoints++;
 			}
 
 			// Show figures for this rental
