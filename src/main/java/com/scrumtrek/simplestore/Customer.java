@@ -1,18 +1,19 @@
 package com.scrumtrek.simplestore;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Customer {
 	public static final int RegularRentThreshold = 2;
 	public static final int ChildrensRentThreshold = 3;
+
 	public static final double RegularMultiplier = 1.5;
-	public static final int NewReleaseMultiplier = 3;
+	public static final double NewReleaseMultiplier = 3;
 	public static final double ChlidrensMultiplier = 1.5;
-	public static final int RegularBaseAmount = 2;
+
+	public static final double RegularBaseAmount = 2;
 	public static final double ChildrenRentAmount = 1.5;
+
 	public static final int NewReleaseMinDaysForBonus = 1;
 	public static final int BaseFrequentRenterPoints = 1;
 
@@ -27,7 +28,6 @@ public class Customer {
 		return mName;
 	}
 
-
 	public void addRental(Rental arg){
 		mRentals.add(arg);
 	}
@@ -37,21 +37,24 @@ public class Customer {
 		double totalAmount = 0;
 		int frequentRenterPoints = 0;
 				
-		String result = "Rental record for " + mName + "\n";
-		
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Rental record for ").append(mName).append("\n");
+
 		for(Rental each: mRentals) {
 			double thisAmount = 0;
 
 			thisAmount += getAmountForRent(each);
 			frequentRenterPoints += getFrequentRenterPoints(each);
 
-			result += "\t" + each.getMovie().getTitle() + "\t" + thisAmount + "\n";
+			stringBuilder.append("\t").append(each.getMovie().getTitle())
+					.append("\t").append(thisAmount).append("\n");
+
 			totalAmount += thisAmount;
 		}
 
-		result += "Amount owed is " + totalAmount + "\n";
-		result += "You earned " + frequentRenterPoints + " frequent renter points.";
-		return result;
+		stringBuilder.append("Amount owed is ").append(totalAmount).append("\n");
+		stringBuilder.append("You earned ").append(frequentRenterPoints).append(" frequent renter points.");
+		return stringBuilder.toString();
 	}
 
 	private double getAmountForRent(Rental rental) {
