@@ -1,5 +1,7 @@
 package com.scrumtrek.simplestore;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,21 +41,8 @@ public class Customer {
 		
 		for(Rental each: mRentals) {
 			double thisAmount = 0;
-			
-			switch(each.getMovie().getPriceCode()) {
-				case Regular:
-					thisAmount += getAmountForRegularMovie(each);
-					break;
-	
-				case NewRelease:
-					thisAmount += getAmountForNewRelease(each);
-					break;
-	
-				case Childrens:
-					thisAmount += getAmountForChildrensRelease(each);
-					break;
-			}
 
+			thisAmount += getAmountForRent(each);
 			frequentRenterPoints += getFrequentRenterPoints(each);
 
 			result += "\t" + each.getMovie().getTitle() + "\t" + thisAmount + "\n";
@@ -63,6 +52,21 @@ public class Customer {
 		result += "Amount owed is " + totalAmount + "\n";
 		result += "You earned " + frequentRenterPoints + " frequent renter points.";
 		return result;
+	}
+
+	private double getAmountForRent(Rental rental) {
+		switch(rental.getMovie().getPriceCode()) {
+            case Regular:
+                return getAmountForRegularMovie(rental);
+            case NewRelease:
+                return getAmountForNewRelease(rental);
+
+            case Childrens:
+                return getAmountForChildrensRelease(rental);
+
+			default:
+				throw new IllegalArgumentException();
+        }
 	}
 
 	private int getFrequentRenterPoints(Rental rental) {
