@@ -7,18 +7,18 @@ import java.util.List;
  * This class holds rental for single customer
  */
 public class Customer {
-	public static final int RegularRentThreshold = 2;
-	public static final int ChildrensRentThreshold = 3;
+	public static final int REGULAR_RENT_THRESHOLD = 2;
+	public static final int CHILDRENS_RENT_THRESHOLD = 3;
 
-	public static final double RegularMultiplier = 1.5;
-	public static final double NewReleaseMultiplier = 3;
-	public static final double ChlidrensMultiplier = 1.5;
+	public static final double REGULAR_MULTIPLIER = 1.5;
+	public static final double NEW_RELEASE_MULTIPLIER = 3;
+	public static final double CHLIDRENS_MULTIPLIER = 1.5;
 
-	public static final double RegularBaseAmount = 2;
-	public static final double ChildrenRentAmount = 1.5;
+	public static final double REGULAR_BASE_AMOUNT = 2;
+	public static final double CHILDREN_RENT_AMOUNT = 1.5;
 
-	public static final int NewReleaseMinDaysForBonus = 1;
-	public static final int BaseFrequentRenterPoints = 1;
+	public static final int NEW_RELEASE_MIN_DAYS_FOR_BONUS = 1;
+	public static final int BASE_FREQUENT_RENTER_POINTS = 1;
 
 	private transient String mName;
 	private transient List<Rental> mRentals = new ArrayList<Rental>();
@@ -80,10 +80,10 @@ public class Customer {
 	}
 
 	private int getFrequentRenterPoints(Rental rental) {
-		int frequentRenterPoints = BaseFrequentRenterPoints;
+		int frequentRenterPoints = BASE_FREQUENT_RENTER_POINTS;
 
 		if ((rental.getMovie().getPriceCode() == PriceCodes.NewRelease)
-                && (rental.getDaysRented() > NewReleaseMinDaysForBonus))
+                && (rental.getDaysRented() > NEW_RELEASE_MIN_DAYS_FOR_BONUS))
         {
             frequentRenterPoints++;
         }
@@ -91,23 +91,23 @@ public class Customer {
 	}
 
 	private double getAmountForChildrensRelease(Rental rental) {
-		double thisAmount = ChildrenRentAmount;
-		if (rental.getDaysRented() > ChildrensRentThreshold)
+		double thisAmount = CHILDREN_RENT_AMOUNT;
+		if (rental.getDaysRented() > CHILDRENS_RENT_THRESHOLD)
         {
-            thisAmount = (rental.getDaysRented() - ChildrensRentThreshold) * ChlidrensMultiplier;
+            thisAmount = (rental.getDaysRented() - CHILDRENS_RENT_THRESHOLD) * CHLIDRENS_MULTIPLIER;
         }
 		return thisAmount;
 	}
 
 	private double getAmountForNewRelease(Rental rental) {
-		return rental.getDaysRented() * NewReleaseMultiplier;
+		return rental.getDaysRented() * NEW_RELEASE_MULTIPLIER;
 	}
 
 	private double getAmountForRegularMovie(Rental rental) {
-		double thisAmount = RegularBaseAmount;
-		if (rental.getDaysRented() > RegularRentThreshold)
+		double thisAmount = REGULAR_BASE_AMOUNT;
+		if (rental.getDaysRented() > REGULAR_RENT_THRESHOLD)
         {
-            thisAmount += (rental.getDaysRented() - RegularRentThreshold) * RegularMultiplier;
+            thisAmount += (rental.getDaysRented() - REGULAR_RENT_THRESHOLD) * REGULAR_MULTIPLIER;
         }
 		return thisAmount;
 	}
