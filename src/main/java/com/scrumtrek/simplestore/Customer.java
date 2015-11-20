@@ -3,6 +3,9 @@ package com.scrumtrek.simplestore;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class holds rental for single customer
+ */
 public class Customer {
 	public static final int RegularRentThreshold = 2;
 	public static final int ChildrensRentThreshold = 3;
@@ -32,6 +35,10 @@ public class Customer {
 		mRentals.add(arg);
 	}
 
+	/**
+	 * Calculate amount for all rents
+	 * @return string with statement for customer
+     */
 	public String Statement()
 	{
 		double totalAmount = 0;

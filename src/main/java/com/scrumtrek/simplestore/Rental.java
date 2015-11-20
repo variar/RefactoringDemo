@@ -1,8 +1,11 @@
 package com.scrumtrek.simplestore;
 
+/**
+ * Single rental information
+ */
 public class Rental {
-	private transient Movie mMovie;
-	private transient int mDaysRented;
+	private final transient Movie mMovie;
+	private final transient int mDaysRented;
 
 	public Rental(Movie movie, int daysRented) {
 		mMovie = movie;

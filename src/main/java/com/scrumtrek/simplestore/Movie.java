@@ -1,7 +1,10 @@
 package com.scrumtrek.simplestore;
 
+/**
+ * This class holds movie info
+ */
 public class Movie {
-	private transient String mTitle;
+	private final transient String mTitle;
 	private transient PriceCodes mPriceCode;
 
 	public Movie(String title, PriceCodes priceCode) {
