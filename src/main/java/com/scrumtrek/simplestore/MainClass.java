@@ -5,7 +5,7 @@ class MainClass {
 	private MainClass()
 	{}
 
-	 static void Main() {
+	static void Main() {
 		Movie movCinderella = new Movie("Cinderella", PriceCodes.Childrens);
 		Movie movStarWars = new Movie("Star Wars", PriceCodes.Regular);
 		Movie movGladiator = new Movie("Gladiator", PriceCodes.NewRelease);
@@ -20,7 +20,9 @@ class MainClass {
 		custMickeyMouse.addRental(rental2);
 		custMickeyMouse.addRental(rental3);
 
-		String statement = custMickeyMouse.Statement();
+		Statement statementGenerator = new Statement();
+
+		String statement = statementGenerator.generateStatement(custMickeyMouse);
 
 		System.out.println(statement);
 	}

@@ -1,15 +1,13 @@
-import com.scrumtrek.simplestore.Customer;
-import com.scrumtrek.simplestore.Movie;
-import com.scrumtrek.simplestore.PriceCodes;
-import com.scrumtrek.simplestore.Rental;
+import com.scrumtrek.simplestore.*;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class CustomerTest {
+public class StatementTest {
 
     private Customer mCustomer;
+    private Statement mStatement;
 
     private class RentalBuilder {
         private String mmovieName = "test movie";
@@ -39,6 +37,7 @@ public class CustomerTest {
     @Before
     public void createCustomer() {
         mCustomer = new Customer("name");
+        mStatement = new Statement();
     }
 
     @Test
@@ -49,7 +48,7 @@ public class CustomerTest {
     @Test
     public void shouldNotCrashWhenCallStatement() {
         try {
-            mCustomer.Statement();
+            mStatement.generateStatement(mCustomer);
         }
         catch (Exception err) {
             fail(err.getMessage());
@@ -69,13 +68,13 @@ public class CustomerTest {
 
     @Test
     public void shouldState0AmountWhenCallStatementWithoutRentals() {
-        String statement = mCustomer.Statement();
+        String statement = mStatement.generateStatement(mCustomer);
         assertTrue(statement.contains("Amount owed is 0"));
     }
 
     @Test
     public void shouldState0FRPWhenCallStatementWithoutRentals() {
-        String statement = mCustomer.Statement();
+        String statement = mStatement.generateStatement(mCustomer);
         assertTrue(statement.contains("You earned 0"));
     }
 
@@ -83,7 +82,7 @@ public class CustomerTest {
     public void shouldState2AmountWhenCallStatementWithRegularRentalFor1Day() {
         Rental rental = new RentalBuilder().Build();
         mCustomer.addRental(rental);
-        String statement = mCustomer.Statement();
+        String statement = mStatement.generateStatement(mCustomer);
         assertTrue(statement.contains("Amount owed is 2"));
     }
 
@@ -91,7 +90,7 @@ public class CustomerTest {
     public void shouldState5AmountWhenCallStatementWithRegularRentalFor4Days() {
         Rental rental = new RentalBuilder().SetRentalDays(4).Build();
         mCustomer.addRental(rental);
-        String statement = mCustomer.Statement();
+        String statement = mStatement.generateStatement(mCustomer);
         assertTrue(statement.contains("Amount owed is 5"));
     }
 
@@ -99,7 +98,7 @@ public class CustomerTest {
     public void shouldState1point5AmountWhenCallStatementWithChildrenRentalFor1Day() {
         Rental rental = new RentalBuilder().SetPriceCode(PriceCodes.Childrens).Build();
         mCustomer.addRental(rental);
-        String statement = mCustomer.Statement();
+        String statement = mStatement.generateStatement(mCustomer);
         assertTrue(statement.contains("Amount owed is 1.5"));
     }
 
@@ -110,7 +109,7 @@ public class CustomerTest {
                 .SetRentalDays(4)
                 .Build();
         mCustomer.addRental(rental);
-        String statement = mCustomer.Statement();
+        String statement = mStatement.generateStatement(mCustomer);
         assertTrue(statement.contains("Amount owed is 1.5"));
     }
 
@@ -118,7 +117,7 @@ public class CustomerTest {
     public void shouldState3AmountWhenCallStatementWithNewRentalFor1Days() {
         Rental rental = new RentalBuilder().SetPriceCode(PriceCodes.NewRelease).Build();
         mCustomer.addRental(rental);
-        String statement = mCustomer.Statement();
+        String statement = mStatement.generateStatement(mCustomer);
         assertTrue(statement.contains("Amount owed is 3"));
     }
 
@@ -126,7 +125,7 @@ public class CustomerTest {
     public void shouldState1FRPWhenCallStatementWithoutNewRelease() {
         Rental rental = new RentalBuilder().Build();
         mCustomer.addRental(rental);
-        String statement = mCustomer.Statement();
+        String statement = mStatement.generateStatement(mCustomer);
         assertTrue(statement.contains("You earned 1"));
     }
 
@@ -137,7 +136,7 @@ public class CustomerTest {
                 .SetRentalDays(2)
                 .Build();
         mCustomer.addRental(rental);
-        String statement = mCustomer.Statement();
+        String statement = mStatement.generateStatement(mCustomer);
         assertTrue(statement.contains("You earned 2"));
     }
 }
