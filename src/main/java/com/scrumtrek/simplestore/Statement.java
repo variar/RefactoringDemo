@@ -1,5 +1,7 @@
 package com.scrumtrek.simplestore;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -23,29 +25,21 @@ public class Statement {
      * Calculate amount for all rents
      * @return string with statement for customer
      */
-    public String generateStatement(Customer customer)
+    public String generateStatement(Customer customer, StatementFormat format)
     {
-        double totalAmount = 0;
-        int frequentRenterPoints = 0;
+        List<RentalAmount> results = calculateAmount(customer.getRentals());
+        return format.format(customer, results);
+    }
 
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Rental record for ").append(customer.getName()).append("\n");
-
-        for(Rental each: customer.getRentals()) {
-            double thisAmount = 0;
-
-            thisAmount += getAmountForRent(each);
-            frequentRenterPoints += getFrequentRenterPoints(each);
-
-            stringBuilder.append("\t").append(each.getMovie().getTitle())
-                    .append("\t").append(thisAmount).append("\n");
-
-            totalAmount += thisAmount;
+    private  List<RentalAmount> calculateAmount(List<Rental> rentals)
+    {
+        List<RentalAmount> results = new ArrayList<>();
+        for(Rental each: rentals) {
+            double rentalAmount = getAmountForRent(each);
+            int frequentRenterPoints = getFrequentRenterPoints(each);
+            results.add(new RentalAmount(each, rentalAmount, frequentRenterPoints));
         }
-
-        stringBuilder.append("Amount owed is ").append(totalAmount).append("\n");
-        stringBuilder.append("You earned ").append(frequentRenterPoints).append(" frequent renter points.");
-        return stringBuilder.toString();
+        return results;
     }
 
     private double getAmountForRent(Rental rental) {

@@ -8,6 +8,7 @@ public class StatementTest {
 
     private Customer mCustomer;
     private Statement mStatement;
+    private StatementFormat mStatementFormat;
 
     private class RentalBuilder {
         private String mmovieName = "test movie";
@@ -38,6 +39,7 @@ public class StatementTest {
     public void createCustomer() {
         mCustomer = new Customer("name");
         mStatement = new Statement();
+        mStatementFormat = new StringStatementFormat();
     }
 
     @Test
@@ -48,7 +50,7 @@ public class StatementTest {
     @Test
     public void shouldNotCrashWhenCallStatement() {
         try {
-            mStatement.generateStatement(mCustomer);
+            mStatement.generateStatement(mCustomer, mStatementFormat);
         }
         catch (Exception err) {
             fail(err.getMessage());
@@ -68,13 +70,13 @@ public class StatementTest {
 
     @Test
     public void shouldState0AmountWhenCallStatementWithoutRentals() {
-        String statement = mStatement.generateStatement(mCustomer);
+        String statement = mStatement.generateStatement(mCustomer, mStatementFormat);
         assertTrue(statement.contains("Amount owed is 0"));
     }
 
     @Test
     public void shouldState0FRPWhenCallStatementWithoutRentals() {
-        String statement = mStatement.generateStatement(mCustomer);
+        String statement = mStatement.generateStatement(mCustomer, mStatementFormat);
         assertTrue(statement.contains("You earned 0"));
     }
 
@@ -82,7 +84,7 @@ public class StatementTest {
     public void shouldState2AmountWhenCallStatementWithRegularRentalFor1Day() {
         Rental rental = new RentalBuilder().Build();
         mCustomer.addRental(rental);
-        String statement = mStatement.generateStatement(mCustomer);
+        String statement = mStatement.generateStatement(mCustomer, mStatementFormat);
         assertTrue(statement.contains("Amount owed is 2"));
     }
 
@@ -90,7 +92,7 @@ public class StatementTest {
     public void shouldState5AmountWhenCallStatementWithRegularRentalFor4Days() {
         Rental rental = new RentalBuilder().SetRentalDays(4).Build();
         mCustomer.addRental(rental);
-        String statement = mStatement.generateStatement(mCustomer);
+        String statement = mStatement.generateStatement(mCustomer, mStatementFormat);
         assertTrue(statement.contains("Amount owed is 5"));
     }
 
@@ -98,7 +100,7 @@ public class StatementTest {
     public void shouldState1point5AmountWhenCallStatementWithChildrenRentalFor1Day() {
         Rental rental = new RentalBuilder().SetPriceCode(PriceCodes.Childrens).Build();
         mCustomer.addRental(rental);
-        String statement = mStatement.generateStatement(mCustomer);
+        String statement = mStatement.generateStatement(mCustomer, mStatementFormat);
         assertTrue(statement.contains("Amount owed is 1.5"));
     }
 
@@ -109,7 +111,7 @@ public class StatementTest {
                 .SetRentalDays(4)
                 .Build();
         mCustomer.addRental(rental);
-        String statement = mStatement.generateStatement(mCustomer);
+        String statement = mStatement.generateStatement(mCustomer, mStatementFormat);
         assertTrue(statement.contains("Amount owed is 1.5"));
     }
 
@@ -117,7 +119,7 @@ public class StatementTest {
     public void shouldState3AmountWhenCallStatementWithNewRentalFor1Days() {
         Rental rental = new RentalBuilder().SetPriceCode(PriceCodes.NewRelease).Build();
         mCustomer.addRental(rental);
-        String statement = mStatement.generateStatement(mCustomer);
+        String statement = mStatement.generateStatement(mCustomer, mStatementFormat);
         assertTrue(statement.contains("Amount owed is 3"));
     }
 
@@ -125,7 +127,7 @@ public class StatementTest {
     public void shouldState1FRPWhenCallStatementWithoutNewRelease() {
         Rental rental = new RentalBuilder().Build();
         mCustomer.addRental(rental);
-        String statement = mStatement.generateStatement(mCustomer);
+        String statement = mStatement.generateStatement(mCustomer, mStatementFormat);
         assertTrue(statement.contains("You earned 1"));
     }
 
@@ -136,7 +138,7 @@ public class StatementTest {
                 .SetRentalDays(2)
                 .Build();
         mCustomer.addRental(rental);
-        String statement = mStatement.generateStatement(mCustomer);
+        String statement = mStatement.generateStatement(mCustomer, mStatementFormat);
         assertTrue(statement.contains("You earned 2"));
     }
 }

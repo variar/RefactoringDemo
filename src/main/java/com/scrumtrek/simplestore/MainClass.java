@@ -21,8 +21,9 @@ class MainClass {
 		custMickeyMouse.addRental(rental3);
 
 		Statement statementGenerator = new Statement();
+		StatementFormat format = new StringStatementFormat();
 
-		String statement = statementGenerator.generateStatement(custMickeyMouse);
+		String statement = statementGenerator.generateStatement(custMickeyMouse, format);
 
 		System.out.println(statement);
 	}
